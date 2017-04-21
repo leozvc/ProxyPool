@@ -91,3 +91,11 @@ func ProxyDel(ip *models.IP) {
 		log.Println(err.Error())
 	}
 }
+
+// ProxyDel .
+func ProxyAll() []*models.IP {
+	conn := NewStorage()
+	ips, _ := conn.GetAll()
+
+	return ips
+}

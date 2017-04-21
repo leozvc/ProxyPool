@@ -10,6 +10,7 @@ import (
 	"github.com/henson/ProxyPool/getter"
 	"github.com/henson/ProxyPool/models"
 	"github.com/henson/ProxyPool/storage"
+	"github.com/leozvc/ProxyPool/file"
 )
 
 func main() {
@@ -20,6 +21,11 @@ func main() {
 	// Start HTTP
 	go func() {
 		api.Run()
+	}()
+
+	//write to file
+	go func() {
+		file.Run()
 	}()
 
 	// Check the IPs in DB
