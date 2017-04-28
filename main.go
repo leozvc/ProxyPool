@@ -5,15 +5,18 @@ import (
 	"runtime"
 	"sync"
 	"time"
-
-	"github.com/henson/ProxyPool/api"
+    "flag"
+    "github.com/henson/ProxyPool/api"
 	"github.com/henson/ProxyPool/getter"
 	"github.com/henson/ProxyPool/models"
 	"github.com/henson/ProxyPool/storage"
 	"github.com/leozvc/ProxyPool/file"
 )
+var filepath = flag.String("filepath", "./temp_ip.txt", "输出到文件的路径")  
+var interval = flag.Int("interval", 60, "间隔时间")  
 
 func main() {
+    flag.Parse()
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	ipChan := make(chan *models.IP, 1000)
 	conn := storage.NewStorage()
@@ -25,7 +28,7 @@ func main() {
 
 	//write to file
 	go func() {
-		file.Run()
+		file.Run(*interval, *filepath)
 	}()
 
 	// Check the IPs in DB
@@ -52,6 +55,7 @@ func main() {
 		time.Sleep(10 * time.Minute)
 	}
 }
+
 
 func run(ipChan chan<- *models.IP) {
 	var wg sync.WaitGroup
