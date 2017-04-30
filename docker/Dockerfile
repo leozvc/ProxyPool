@@ -1,22 +1,28 @@
 FROM centos:7
 MAINTAINER  leozvc 
-#phantomjs
-COPY ./phantomjs /usr/local/bin/ 
 
+RUN mkdir /data/
+
+ENV PATH /data:$PATH
+
+#phantomjs
+COPY ./phantomjs /data/ 
+RUN yum install -y fontconfig 
 #ProxyPool
-COPY ./ProxyPool /usr/local/bin/
+COPY ./ProxyPool /data/
 
 #configure
-RUN mkdir /data; cd /data
-
 COPY ./config.json /data/
+
+COPY ./phantomjs_fetcher.js /data/
+
 
 WORKDIR /data
 
 EXPOSE 8080
 
-#run 
-CMD ProxyPool 
+#run
+CMD ProxyPool
 
 
 
