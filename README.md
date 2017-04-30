@@ -147,7 +147,7 @@ cat config.json (configure file: /data/docker-conf/proxypool/config.json )
         },
         "host": ":8080",
         "output_file": {
-            "filepath": "./temp_proxyip.txt",
-            "interval": 10
+            "filepath": "/tmp/proxyip.txt",
+            "interval": 60
         }   
     }
