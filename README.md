@@ -130,18 +130,13 @@ cat docker-compose.yml
                 restart: always
             mongodb:
                 image: 'mongo'
-                #ports:
-                #    - "27017:27017"
-                #volumes:
-                #    - /data/docker/spiderMysql_Data:/var/lib/mysql
-                #privileged: false
                 restart: always
                 
 cat config.json (configure file: /data/docker-conf/proxypool/config.json )
 
     {
         "mongo": {
-            "addr": "mongodb://127.0.0.1:27017/",
+            "addr": "mongodb://mongodb:27017/",
             "db": "temp",
             "table": "pool"
         },
