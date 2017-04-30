@@ -110,3 +110,44 @@ GET http://localhost:8080/v1/https
 ### 4、感谢
 
 感谢 [J_hao104](https://github.com/jhao104/proxy_pool) 提供思路。
+
+### 5、docker run
+
+cat docker-compose.yml
+
+    #proxypool
+    version: '2.1'
+    services:
+            proxypool:
+                image: 'leozvc/proxypool'
+                links: 
+                    - mongodb:mongodb
+                ports:
+                    - 8080:8080
+                volumes:
+                    - /data/docker-conf/proxypool/config.json:/data/config.json
+                    - /data/work/pholcus_pkg/proxy.lib:/tmp/proxyip.txt    
+                restart: always
+            mongodb:
+                image: 'mongo'
+                #ports:
+                #    - "27017:27017"
+                #volumes:
+                #    - /data/docker/spiderMysql_Data:/var/lib/mysql
+                #privileged: false
+                restart: always
+                
+cat config.json (configure file: /data/docker-conf/proxypool/config.json )
+
+    {
+        "mongo": {
+            "addr": "mongodb://127.0.0.1:27017/",
+            "db": "temp",
+            "table": "pool"
+        },
+        "host": ":8080",
+        "output_file": {
+            "filepath": "./temp_proxyip.txt",
+            "interval": 10
+        }   
+    }
