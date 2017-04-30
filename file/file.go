@@ -6,19 +6,22 @@ import (
     "time"
 	"io/ioutil"
 	"github.com/leozvc/ProxyPool/storage"
+	"github.com/leozvc/ProxyPool/util"
 )
 
 // VERSION for this program
 //const VERSION = "/v1"
 
 // Run for request
-func Run(t int, filepath string) {
-
+func Run() {
+    
+    
+	Config := util.NewConfig()
 	for {
 	    //自动刷新代理列表
-	    go GetProxys(filepath)
+	    go GetProxys(Config.Output_file.Filepath)
 		
-        time.Sleep(time.Duration(t) * time.Second)
+        time.Sleep(time.Duration(Config.Output_file.Interval) * time.Second)
 	}
 
 }

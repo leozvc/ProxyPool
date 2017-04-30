@@ -92,7 +92,7 @@ func ProxyDel(ip *models.IP) {
 	}
 }
 
-// ProxyDel .
+// ProxyAll .
 func ProxyAll() []*models.IP {
 	conn := NewStorage()
 	ips, _ := conn.GetAll()

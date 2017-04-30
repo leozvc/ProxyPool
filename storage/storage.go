@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/henson/ProxyPool/models"
-	"github.com/henson/ProxyPool/util"
+	"github.com/leozvc/ProxyPool/util"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )

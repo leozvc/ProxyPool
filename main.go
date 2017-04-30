@@ -5,18 +5,14 @@ import (
 	"runtime"
 	"sync"
 	"time"
-    "flag"
     "github.com/henson/ProxyPool/api"
 	"github.com/henson/ProxyPool/getter"
 	"github.com/henson/ProxyPool/models"
-	"github.com/henson/ProxyPool/storage"
+	"github.com/leozvc/ProxyPool/storage"
 	"github.com/leozvc/ProxyPool/file"
 )
-var filepath = flag.String("filepath", "./temp_ip.txt", "输出到文件的路径")  
-var interval = flag.Int("interval", 60, "间隔时间")  
 
 func main() {
-    flag.Parse()
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	ipChan := make(chan *models.IP, 1000)
 	conn := storage.NewStorage()
@@ -28,7 +24,7 @@ func main() {
 
 	//write to file
 	go func() {
-		file.Run(*interval, *filepath)
+		file.Run()
 	}()
 
 	// Check the IPs in DB
@@ -37,7 +33,7 @@ func main() {
 	}()
 
 	// Check the IPs in channel
-	for i := 0; i < 50; i++ {
+	for i := 0; i < 100; i++ {
 		go func() {
 			for {
 				storage.CheckProxy(<-ipChan)
@@ -49,7 +45,7 @@ func main() {
 	for {
 		x := conn.Count()
 		log.Printf("Chan: %v, IP: %v\n", len(ipChan), x)
-		if len(ipChan) < 100 {
+		if len(ipChan) < 200 {
 			go run(ipChan)
 		}
 		time.Sleep(10 * time.Minute)
@@ -61,7 +57,7 @@ func run(ipChan chan<- *models.IP) {
 	var wg sync.WaitGroup
 	funs := []func() []*models.IP{
 		getter.Data5u,
-		getter.IP66,
+		//getter.IP66,
 		getter.KDL,
 		getter.GBJ,
 		getter.Xici,

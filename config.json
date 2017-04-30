@@ -4,5 +4,9 @@
         "db": "temp",
         "table": "pool"
     },
-    "host": ":8080"
+    "host": ":8080",
+    "output_file": {
+        "filepath": "./temp_proxyip.txt",
+        "interval": 10
+    }   
 }
